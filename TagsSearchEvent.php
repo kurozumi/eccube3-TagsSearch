@@ -34,7 +34,7 @@ class TagsSearchEvent
     {
         $builder = $event->getArgument('builder');
         $builder->add('tag_ids', 'entity', array(
-            'class' => 'Eccube\Entity\ProductTag',
+            'class' => 'Eccube\Entity\Master\Tag',
             'empty_value' => '全ての商品タグ',
             'empty_data' => null,
             'required' => false,
@@ -47,9 +47,6 @@ class TagsSearchEvent
         $searchData = $event->getArgument('searchData');
         $qb = $event->getArgument('qb');
         
-            print_r($searchData);
-            exit;
-
         // category
         if (!empty($searchData['tag_ids']) && $searchData['tag_ids']) {
 
@@ -61,9 +58,9 @@ class TagsSearchEvent
             if ($Tags) {
                 $qb
                         ->innerJoin('p.ProductTag', 'ptt')
-                        ->innerJoin('ptt.ProductTag', 't')
-                        ->andWhere($qb->expr()->in('ptt.ProductTag', ':ProductTag'))
-                        ->setParameter('ProductTag', $Tags);
+                        ->innerJoin('ptt.Tag', 't')
+                        ->andWhere($qb->expr()->in('ptt.Tag', ':Tags'))
+                        ->setParameter('Tags', $Tags);
             }
         }
     }
