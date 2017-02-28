@@ -1,0 +1,6 @@
+name: タグ検索プラグイン
+code: TagsSearch
+version: 1.0.0
+event: TagsSearchEvent
+service:
+    - TagsSearchServiceProvider
